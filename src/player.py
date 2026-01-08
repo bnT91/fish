@@ -13,6 +13,7 @@ class Player:
         self.sprite = pygame.transform.scale(self.sprite, (44, 64))
         self.speed = 5
         self.lives = 3
+        self.score = 0
         self.centerx, self.centery = self.screen.width / 2 - self.sprite.width / 2, self.screen.height - self.sprite.height - 20
         self.rect = pygame.rect.Rect(self.centerx, self.centery, self.sprite.width, self.sprite.height)
 

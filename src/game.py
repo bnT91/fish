@@ -48,6 +48,7 @@ class Game:
         self.iceblocks = Iceblocks(screen=self.screen, v_spd=self.vertical_speed)
         self.fish_generator = FishGenerator(screen=self.screen, player=self.player, iceblocks=self.iceblocks, v_spd=self.vertical_speed)
         self.red_spikes = RedSpikes(screen=self.screen, v_spd=self.vertical_speed)
+        self.score = Score(screen=self.screen, player=self.player)
 
     def update(self):  # updating all positions, variables etc
         pygame.display.update()
@@ -59,6 +60,7 @@ class Game:
         elif self.state == "game":
             self.player.update()
             self.red_spikes.update()
+            self.score.update()
 
     def draw(self):  # blitting everything
         self.screen.fill(self.settings.BACKGROUND_COLOR)
@@ -70,6 +72,7 @@ class Game:
             self.iceblocks.draw()
             self.player.draw()
             self.red_spikes.draw()
+            self.score.draw()
 
     def run(self):
         running = True
