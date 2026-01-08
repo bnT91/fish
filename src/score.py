@@ -2,6 +2,8 @@ import pygame
 
 class Score:
     def __init__(self, screen, player):
+        pygame.init()
+
         self.screen = screen
         self.player = player
 
@@ -11,18 +13,18 @@ class Score:
         self.score_label = self.score_font.render(f"Score: {self.player.score}", True, (0, 0, 0))
         self.lives_label = self.lives_font.render(f"Lives: {self.player.lives}", True, (0, 0, 0))
 
-        self.sc_rect = self.score_label.get_rect(topleft=(30, 30))
-        self.lvs_rect = self.lives_label.get_rect(topleft=(self.screen.width - self.lives_label.width - 30, 30))
+        self.sc_rect = self.score_label.get_rect(topleft=(100, 30))
+        self.lvs_rect = self.lives_label.get_rect(topleft=(self.screen.get_width() - self.lives_label.get_width() - 100, 30))
 
     def update(self):
         self.score_label = self.score_font.render(
             f"Score: {self.player.score}", True, (0, 0, 0))
-        self.sc_rect = self.score_label.get_rect(topleft=(30, 30))
+        self.sc_rect = self.score_label.get_rect(topleft=(100, 30))
 
         self.lives_label = self.lives_font.render(
             f"Lives: {self.player.lives}", True, (0, 0, 0))
         self.lvs_rect = self.lives_label.get_rect(
-            topleft=(self.screen.get_width() - self.lives_label.get_width() - 30, 30))
+            topleft=(self.screen.get_width() - self.lives_label.get_width() - 100, 30))
 
     def draw(self):
         self.screen.blit(self.score_label, self.sc_rect)

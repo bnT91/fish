@@ -1,12 +1,3 @@
-# TODO
-#   1) сделать слева и справа экрана красные полоски, касаясь которых, игрок будет терять жизнь / умирать (отдельный объект)
-#   2) сделать объект PauseScreen
-#   3) реализовать Score
-#
-#
-#
-#
-
 import pygame
 
 from fish_generator import FishGenerator
@@ -51,8 +42,6 @@ class Game:
         self.score = Score(screen=self.screen, player=self.player)
 
     def update(self):  # updating all positions, variables etc
-        pygame.display.update()
-
         if self.state == "st_scr":
             self.starting_screen.update()
             if self.starting_screen.finished:
@@ -88,6 +77,7 @@ class Game:
                         self.fish_generator.catch()
                 if event.type == pygame.QUIT:
                     running = False
+            pygame.display.flip()
             self.clock.tick(60)
         self.running = False
         pygame.quit()
