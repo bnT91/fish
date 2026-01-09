@@ -1,3 +1,7 @@
+import sys
+print(sys.executable)
+print(sys.version)
+
 import pygame
 
 from fish_generator import FishGenerator
@@ -23,13 +27,14 @@ class VerticalSpeed:
 
 class Game:
     def __init__(self):
+        pygame.init()
         self.settings = Settings()
         self.screen = pygame.display.set_mode((700, 700))
+        print(self.screen)
         pygame.display.set_caption("Royal Ice Rybalka Fish")
         pygame.display.set_icon(pygame.image.load(self.settings.BASE_DIRECTORY / "sprites/icon.png").convert_alpha())
         self.states = ["st_scr", "game", "dth_scr"]
         self.state = "st_scr"
-        self.running = True
 
         self.clock = pygame.time.Clock()
         self.vertical_speed = VerticalSpeed()
@@ -40,6 +45,7 @@ class Game:
         self.fish_generator = FishGenerator(screen=self.screen, player=self.player, iceblocks=self.iceblocks, v_spd=self.vertical_speed)
         self.red_spikes = RedSpikes(screen=self.screen, v_spd=self.vertical_speed)
         self.score = Score(screen=self.screen, player=self.player)
+        self.death_screen = DeathScreen(screen=self.screen, player=self.player)
 
     def update(self):  # updating all positions, variables etc
         if self.state == "st_scr":
@@ -50,6 +56,10 @@ class Game:
             self.player.update()
             self.red_spikes.update()
             self.score.update()
+            if self.player.dead:
+                self.state = "dth_scr"
+        elif self.state == "dth_scr":
+            pass
 
     def draw(self):  # blitting everything
         self.screen.fill(self.settings.BACKGROUND_COLOR)
@@ -79,5 +89,4 @@ class Game:
                     running = False
             pygame.display.flip()
             self.clock.tick(60)
-        self.running = False
         pygame.quit()

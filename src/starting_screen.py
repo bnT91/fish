@@ -2,7 +2,7 @@ import pygame
 
 class StartingScreen:
     def __init__(self, screen):
-        pygame.font.init()
+        pygame.init()
 
         self.screen = screen
         self.width, self.height = screen.get_size()
@@ -32,7 +32,6 @@ class StartingScreen:
 
     def draw(self):
         self.screen.fill((30, 120, 200))
-
         title_rect = self.title_text.get_rect(center=(self.width/2, self.height/3))
         self.screen.blit(self.title_text, title_rect)
 
