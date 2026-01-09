@@ -1,5 +1,10 @@
-from game import Game
+import os
+os.environ["SDL_VIDEODRIVER"] = "windows"  # заставляем использовать Windows driver
+
 import pygame
+pygame.init()
+
+from game import Game
 
 
 class App:
@@ -11,6 +16,6 @@ class App:
 
 
 if __name__ == '__main__':
-    pygame.init()
+    print(pygame.display.get_driver())
     app = App()
     app.run()

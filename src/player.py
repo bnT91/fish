@@ -5,7 +5,6 @@ from settings import *
 
 class Player:
     def __init__(self, screen):
-        pygame.init()
         self.screen = screen
         self.settings = Settings()
 
@@ -44,7 +43,7 @@ class Player:
 
     def update(self):
         self.anim_counter += 1
-        self.anim_counter = self.anim_counter % 30
+        self.anim_counter = self.anim_counter % self.settings.ANIMATION_CONSTANT
         if not self.anim_counter:
             self.sprite = next(self.anims_iter)
         if pygame.key.get_pressed()[pygame.K_RIGHT] or pygame.key.get_pressed()[pygame.K_d]:

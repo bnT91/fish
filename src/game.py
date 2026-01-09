@@ -27,10 +27,8 @@ class VerticalSpeed:
 
 class Game:
     def __init__(self):
-        pygame.init()
         self.settings = Settings()
         self.screen = pygame.display.set_mode((700, 700))
-        print(self.screen)
         pygame.display.set_caption("Royal Ice Rybalka Fish")
         pygame.display.set_icon(pygame.image.load(self.settings.BASE_DIRECTORY / "sprites/icon.png").convert_alpha())
         self.states = ["st_scr", "game", "dth_scr"]

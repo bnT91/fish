@@ -2,8 +2,6 @@ import pygame
 
 class Score:
     def __init__(self, screen, player):
-        pygame.init()
-
         self.screen = screen
         self.player = player
 
