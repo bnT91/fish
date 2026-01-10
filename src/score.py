@@ -9,7 +9,7 @@ class Score:
         self.lives_font = pygame.font.SysFont("Serif", 36)
 
         self.score_label = self.score_font.render(f"Score: {self.player.score}", True, (0, 0, 0))
-        self.lives_label = self.lives_font.render(f"Lives: {self.player.lives}", True, (0, 0, 0))
+        self.lives_label = self.lives_font.render(f"Lives: {self.player.lives}", True, (200, 0, 0))
 
         self.variable = self.lives_label.get_width() + 115
 
@@ -22,7 +22,7 @@ class Score:
         self.sc_rect = self.score_label.get_rect(topleft=(100, 30))
 
         self.lives_label = self.lives_font.render(
-            f"Lives: {self.player.lives*"♥"}", True, (255, 0, 0))
+            f"Lives: {self.player.lives*"♥"}", True, (200, 0, 0))
         self.lvs_rect = self.lives_label.get_rect(
             topleft=(self.screen.get_width() - self.variable, 30))
 

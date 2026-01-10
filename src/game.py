@@ -1,3 +1,5 @@
+# todo: pause screen, restart button at death screen
+
 import sys
 print(sys.executable)
 print(sys.version)
@@ -57,8 +59,7 @@ class Game:
             if self.player.dead:
                 self.state = "dth_scr"
         elif self.state == "dth_scr":
-            pass
-
+            self.death_screen.update()
     def draw(self):  # blitting everything
         self.screen.fill(self.settings.BACKGROUND_COLOR)
 
@@ -70,6 +71,9 @@ class Game:
             self.player.draw()
             self.red_spikes.draw()
             self.score.draw()
+        elif self.state == "dth_scr":
+            self.death_screen.draw()
+
 
     def run(self):
         running = True
