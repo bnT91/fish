@@ -1,12 +1,14 @@
 import pygame
 from settings import Settings
 
-class RedSpikes:
+class Background:
     def __init__(self, screen, v_spd):
         self.settings = Settings()
 
         self.screen = screen
         self.sprite = pygame.image.load(self.settings.BASE_DIRECTORY / "sprites/red_spikes.png").convert_alpha()
+        self.sprite = pygame.transform.scale(self.sprite, self.screen.get_size())
+        self.background_sprite = pygame.transform.scale(pygame.image.load(self.settings.BASE_DIRECTORY / "sprites/background.png").convert_alpha(), self.screen.get_size())
 
         self.v_spd = v_spd
         self.rect_1, self.rect_2 = self.sprite.get_rect(topleft=(0, 0)), self.sprite.get_rect(topleft=(0, -self.screen.height))
@@ -25,5 +27,7 @@ class RedSpikes:
                 self.rect_1.y = self.rect_2.y - 700
 
     def draw(self):
+        self.screen.blit(self.background_sprite, self.rect_1)
+        self.screen.blit(self.background_sprite, self.rect_2)
         self.screen.blit(self.sprite, self.rect_1)
         self.screen.blit(self.sprite, self.rect_2)

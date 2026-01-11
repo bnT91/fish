@@ -6,13 +6,12 @@ print(sys.version)
 
 import pygame
 
-from fish_generator import FishGenerator
+from object_generator import ObjectGenerator
 from player import Player
-from iceblocks import Iceblocks
 from starting_screen import StartingScreen
 from death_screen import DeathScreen
 from score import Score
-from red_spikes import RedSpikes
+from background import Background
 
 from settings import Settings
 
@@ -41,9 +40,8 @@ class Game:
 
         self.starting_screen = StartingScreen(screen=self.screen)
         self.player = Player(screen=self.screen)
-        self.iceblocks = Iceblocks(screen=self.screen, v_spd=self.vertical_speed)
-        self.fish_generator = FishGenerator(screen=self.screen, player=self.player, iceblocks=self.iceblocks, v_spd=self.vertical_speed)
-        self.red_spikes = RedSpikes(screen=self.screen, v_spd=self.vertical_speed)
+        self.generator = ObjectGenerator(screen=self.screen, v_spd=self.vertical_speed, player=self.player)
+        self.red_spikes = Background(screen=self.screen, v_spd=self.vertical_speed)
         self.score = Score(screen=self.screen, player=self.player)
         self.death_screen = DeathScreen(screen=self.screen, player=self.player)
 
@@ -55,6 +53,7 @@ class Game:
         elif self.state == "game":
             self.player.update()
             self.red_spikes.update()
+            self.generator.update()
             self.score.update()
             if self.player.dead:
                 self.state = "dth_scr"
@@ -66,10 +65,9 @@ class Game:
         if self.state == "st_scr":
             self.starting_screen.draw()
         elif self.state == "game":
-            self.fish_generator.draw()
-            self.iceblocks.draw()
-            self.player.draw()
             self.red_spikes.draw()
+            self.generator.draw()
+            self.player.draw()
             self.score.draw()
         elif self.state == "dth_scr":
             self.death_screen.draw()
@@ -86,7 +84,7 @@ class Game:
                 elif self.state == "game":
                     player_state = self.player.handle_event(event)
                     if player_state == "trying to catch":
-                        self.fish_generator.catch()
+                        self.generator.catch()
                 if event.type == pygame.QUIT:
                     running = False
             pygame.display.flip()
