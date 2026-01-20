@@ -22,6 +22,10 @@ class Player:
         self.anims = [self.anim1, self.anim2]
         self.anims_iter = cycle(self.anims)
 
+        self.cooldown = False
+        self.cooldown_time = 0
+        self.counter = 0
+
         self.speed = 5
         self.lives = 3
         self.score = 0
@@ -33,7 +37,8 @@ class Player:
         self.rect = pygame.rect.Rect(self.centerx, self.centery, self.sprite.width, self.sprite.height)
 
     def try_to_catch(self):
-        self.trying_to_catch = True
+        if not self.cooldown:
+            self.trying_to_catch = True
 
     def minus_live(self):
         self.lives -= 1
@@ -50,15 +55,23 @@ class Player:
             self.rect.x += self.speed
         elif pygame.key.get_pressed()[pygame.K_LEFT] or pygame.key.get_pressed()[pygame.K_a]:
             self.rect.x -= self.speed
-
         if self.rect.x < 64 or self.rect.x > self.w - self.rect.width - 64:
             self.minus_live()
             self.rect.x = self.w / 2 - self.sprite.width / 2
+        if self.cooldown:
+            self.counter += 1
+            if self.counter == self.settings.fps:
+                self.cooldown_time -= 1
+                if not self.cooldown_time:
+                    self.cooldown = False
+                    self.cooldown_time = 0
+                self.counter = 0
 
     def handle_event(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN:
-            self.try_to_catch()
-            return "trying to catch"
+            if not self.cooldown:
+                self.try_to_catch()
+                return "trying to catch"
         return None
 
     def draw(self):

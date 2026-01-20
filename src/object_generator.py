@@ -1,16 +1,41 @@
-import pygame
+import random
 
 from fish import Fish
 from iceblock import Iceblock
 
+
 class ObjectGenerator:
     def __init__(self, screen, player, v_spd):
         self.screen = screen
-        self.fishlist = [Fish(self.screen, 10, 10)]
+        self.fishlist = []
         self.icelist = []
+
+        self.DELTA = 32
+        self.X = 5
+        self.frame = 1
+        self.FREQUENCY = 30
 
         self.player = player
         self.v_spd = v_spd
+
+    def spawn(self):
+        genx, geny = random.randint(64, self.screen.get_width() - 97), random.randint(100, self.screen.get_height() - 100)
+        for i in range(self.X):
+            genx, geny = random.randint(64, self.screen.get_width() - 97), random.randint(100, self.screen.get_height() - 100)
+            for piece in self.fishlist + self.icelist:
+                if abs(piece.y - geny) <= self.DELTA or abs(piece.x - genx) <= self.DELTA:
+                    break
+            else:
+                break
+        else:
+            return None
+        _type = random.randint(0, 2)
+        if _type:
+            self.fishlist.append(Fish(self.screen, x=genx, y=geny))
+            return "F"
+        else:
+            self.icelist.append(Iceblock(self.screen, x=genx, y=geny))
+            return "I"
 
     def catch(self):
         pass
@@ -18,8 +43,10 @@ class ObjectGenerator:
     def update(self):
         self.fishlist = [ifish for ifish in self.fishlist if not ifish.move(0, self.v_spd.get())]
         self.icelist = [iice for iice in self.icelist if not iice.move(0, self.v_spd.get())]
-        for fish in self.fishlist:
-            print(fish.y)
+        self.frame += 1
+        self.frame = self.frame % self.FREQUENCY
+        if not self.frame:
+            self.spawn()
 
     def draw(self):
         for iceblock in self.icelist:

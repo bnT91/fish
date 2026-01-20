@@ -1,4 +1,4 @@
-# todo: pause screen, restart button at death screen
+# todo: pause screen, restart button at death screen, CATCH COOLDOWN!!!!!!!!!!
 
 import sys
 print(sys.executable)
@@ -84,9 +84,12 @@ class Game:
                 elif self.state == "game":
                     player_state = self.player.handle_event(event)
                     if player_state == "trying to catch":
+                        self.player.cooldown = True
+                        self.player.cooldown_time = self.settings.COOLDOWN_CONSTANT
+                        self.player.trying_to_catch = False
                         self.generator.catch()
                 if event.type == pygame.QUIT:
                     running = False
             pygame.display.flip()
-            self.clock.tick(60)
+            self.clock.tick(self.settings.fps)
         pygame.quit()
