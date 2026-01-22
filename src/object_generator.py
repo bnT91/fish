@@ -10,7 +10,7 @@ class ObjectGenerator:
         self.fishlist = []
         self.icelist = []
 
-        self.DELTA = 32
+        self.DELTA = 64
         self.X = 5
         self.frame = 1
         self.FREQUENCY = 30
@@ -19,7 +19,7 @@ class ObjectGenerator:
         self.v_spd = v_spd
 
     def spawn(self):
-        genx, geny = random.randint(64, self.screen.get_width() - 97), random.randint(100, self.screen.get_height() - 100)
+        genx, geny = random.randint(64, self.screen.get_width() - 97), random.randint(200, self.screen.get_height() - 100)
         for i in range(self.X):
             genx, geny = random.randint(64, self.screen.get_width() - 97), random.randint(100, self.screen.get_height() - 100)
             for piece in self.fishlist + self.icelist:
@@ -38,11 +38,24 @@ class ObjectGenerator:
             return "I"
 
     def catch(self):
-        pass
+        flaggy = False
+        for fishy in self.fishlist:
+            if self.player.rect.colliderect(fishy):
+                flaggy = True
+        if flaggy:
+            self.player.score += 1
+
+    def minus_live(self):
+        self.player.minus_live()
 
     def update(self):
         self.fishlist = [ifish for ifish in self.fishlist if not ifish.move(0, self.v_spd.get())]
         self.icelist = [iice for iice in self.icelist if not iice.move(0, self.v_spd.get())]
+        for piece in self.fishlist + self.icelist:
+            piece.update()
+        for iceblock in self.icelist:
+            if iceblock.collide(self.player):
+                self.minus_live()
         self.frame += 1
         self.frame = self.frame % self.FREQUENCY
         if not self.frame:

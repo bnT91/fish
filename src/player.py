@@ -26,6 +26,10 @@ class Player:
         self.cooldown_time = 0
         self.counter = 0
 
+        self.immortality = True
+        self.imm_frame = self.settings.fps
+        self.const = 2
+
         self.speed = 5
         self.lives = 3
         self.score = 0
@@ -41,12 +45,20 @@ class Player:
             self.trying_to_catch = True
 
     def minus_live(self):
-        self.lives -= 1
-        if not self.lives:
-            self.dead = True
-        # death animation
+        if not self.immortality:
+            self.lives -= 1
+            self.rect.x = self.w / 2 - self.sprite.width / 2
+            self.immortality = True
+            self.imm_frame = self.settings.fps * self.const
+            if not self.lives:
+                self.dead = True
+
 
     def update(self):
+        if self.immortality:
+            self.imm_frame -= 1
+            if self.imm_frame <= 0:
+                self.immortality = False
         self.anim_counter += 1
         self.anim_counter = self.anim_counter % self.settings.ANIMATION_CONSTANT
         if not self.anim_counter:
@@ -55,9 +67,12 @@ class Player:
             self.rect.x += self.speed
         elif pygame.key.get_pressed()[pygame.K_LEFT] or pygame.key.get_pressed()[pygame.K_a]:
             self.rect.x -= self.speed
-        if self.rect.x < 64 or self.rect.x > self.w - self.rect.width - 64:
+        if self.rect.x < 64:
+            self.rect.x = 64
             self.minus_live()
-            self.rect.x = self.w / 2 - self.sprite.width / 2
+        if self.rect.x > self.w - self.rect.width - 64:
+            self.rect.x = self.w - self.rect.width - 64
+            self.minus_live()
         if self.cooldown:
             self.counter += 1
             if self.counter == self.settings.fps:

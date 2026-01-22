@@ -1,4 +1,4 @@
-# todo: pause screen, restart button at death screen, CATCH COOLDOWN!!!!!!!!!!
+# todo: pause screen, restart button at death screen
 
 import sys
 print(sys.executable)
@@ -34,6 +34,9 @@ class Game:
         pygame.display.set_icon(pygame.image.load(self.settings.BASE_DIRECTORY / "sprites/icon.png").convert_alpha())
         self.states = ["st_scr", "game", "dth_scr"]
         self.state = "st_scr"
+        self.last_state = "st_scr"
+        self.death_screen_counter = 0
+        self.flaggg = True
 
         self.clock = pygame.time.Clock()
         self.vertical_speed = VerticalSpeed()
@@ -58,6 +61,10 @@ class Game:
             if self.player.dead:
                 self.state = "dth_scr"
         elif self.state == "dth_scr":
+            self.death_screen_counter += 1
+            if self.death_screen_counter >= 5 and self.flaggg:
+                self.flaggg = False
+                self.death_screen = DeathScreen(screen=self.screen, player=self.player)
             self.death_screen.update()
     def draw(self):  # blitting everything
         self.screen.fill(self.settings.BACKGROUND_COLOR)

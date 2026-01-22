@@ -9,7 +9,8 @@ class Iceblock:
 
         self.settings = settings.Settings()
 
-        self.sprites = [pygame.image.load(self.settings.BASE_DIRECTORY / "sprites" / "iceblock1.png").convert_alpha()] # размер спрайта 32х32
+        self.sprites = [pygame.transform.scale(pygame.image.load(self.settings.BASE_DIRECTORY / "sprites" / "iceblock1.png").convert_alpha(), (64, 64)),
+                        pygame.transform.scale(pygame.image.load(self.settings.BASE_DIRECTORY / "sprites" / "iceblock2.png").convert_alpha(), (64, 64))] # размер спрайта 32х32
 
         self.sprite = random.choice(self.sprites)
         self.rect = self.sprite.get_rect(topleft=(self.x, self.y))
@@ -21,11 +22,14 @@ class Iceblock:
             return True
         return False
 
-    def collide(self, sprite):
-        pass
+    def collide(self, player):
+        if self.rect.colliderect(player):
+            return True
+        return False
 
     def update(self):
-        pass
+        self.rect.x = self.x
+        self.rect.y = self.y
 
     def draw(self):
         self.screen.blit(self.sprite, (self.x, self.y))

@@ -38,7 +38,7 @@ class DeathScreen:
         self.score_rect = self.score_label.get_rect(topleft=(30, 30))
 
         self.best_sc_font = pygame.font.SysFont("Serif", 36)
-        self.best_sc_label = self.best_sc_font.render(f"Best score: {self.player.score}", True, (60, 255, 0))
+        self.best_sc_label = self.best_sc_font.render(f"Best score: {self.best_score}", True, (60, 255, 0))
         self.best_sc_rect = self.best_sc_label.get_rect(topleft=(self.w - self.best_sc_label.get_width() - 30, 30))
 
     def update(self):
