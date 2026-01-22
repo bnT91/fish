@@ -35,6 +35,10 @@ class Player:
         self.score = 0
         self.dead = False
 
+        self.death_sfx = pygame.mixer.Sound(self.settings.BASE_DIRECTORY / "sounds/death.mp3")
+        self.death_sfx2 = pygame.mixer.Sound(self.settings.BASE_DIRECTORY / "sounds/death2.mp3")
+        self.minus_live_sfx = pygame.mixer.Sound(self.settings.BASE_DIRECTORY / 'sounds/minus_live.mp3')
+
         self.w, self.h = self.screen.get_size()
 
         self.centerx, self.centery = self.w / 2 - self.sprite.width / 2, self.h - self.sprite.height - 20
@@ -46,12 +50,15 @@ class Player:
 
     def minus_live(self):
         if not self.immortality:
+            self.minus_live_sfx.play()
             self.lives -= 1
             self.rect.x = self.w / 2 - self.sprite.width / 2
             self.immortality = True
             self.imm_frame = self.settings.fps * self.const
             if not self.lives:
                 self.dead = True
+                pygame.Sound.play(self.death_sfx2, maxtime=5000)
+                pygame.time.set_timer(pygame.USEREVENT+2, 5000, loops=1)
 
 
     def update(self):

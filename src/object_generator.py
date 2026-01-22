@@ -1,7 +1,10 @@
 import random
 
+import pygame
+
 from fish import Fish
 from iceblock import Iceblock
+from settings import Settings
 
 
 class ObjectGenerator:
@@ -14,6 +17,10 @@ class ObjectGenerator:
         self.X = 5
         self.frame = 1
         self.FREQUENCY = 30
+
+        self.settings = Settings()
+
+        self.cought_sound = pygame.mixer.Sound(self.settings.BASE_DIRECTORY / 'sounds/cought.mp3')
 
         self.player = player
         self.v_spd = v_spd
@@ -44,6 +51,7 @@ class ObjectGenerator:
                 flaggy = True
         if flaggy:
             self.player.score += 1
+            self.cought_sound.play()
 
     def minus_live(self):
         self.player.minus_live()

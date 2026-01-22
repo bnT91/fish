@@ -95,6 +95,8 @@ class Game:
                         self.player.cooldown_time = self.settings.COOLDOWN_CONSTANT
                         self.player.trying_to_catch = False
                         self.generator.catch()
+                if event.type == pygame.USEREVENT + 2:
+                    pygame.Sound.play(self.player.death_sfx)
                 if event.type == pygame.QUIT:
                     running = False
             pygame.display.flip()
