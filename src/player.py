@@ -41,8 +41,8 @@ class Player:
 
         self.w, self.h = self.screen.get_size()
 
-        self.centerx, self.centery = self.w / 2 - self.sprite.width / 2, self.h - self.sprite.height - 20
-        self.rect = pygame.rect.Rect(self.centerx, self.centery, self.sprite.width, self.sprite.height)
+        self.centerx, self.centery = self.w / 2 - self.sprite.get_width() / 2, self.h - self.sprite.get_height() - 20
+        self.rect = pygame.rect.Rect(self.centerx, self.centery, self.sprite.get_width(), self.sprite.get_height())
 
     def try_to_catch(self):
         if not self.cooldown:
@@ -52,7 +52,7 @@ class Player:
         if not self.immortality:
             self.minus_live_sfx.play()
             self.lives -= 1
-            self.rect.x = self.w / 2 - self.sprite.width / 2
+            self.rect.x = self.w / 2 - self.sprite.get_width() / 2
             self.immortality = True
             self.imm_frame = self.settings.fps * self.const
             if not self.lives:

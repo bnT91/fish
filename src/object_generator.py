@@ -24,11 +24,12 @@ class ObjectGenerator:
 
         self.player = player
         self.v_spd = v_spd
+        self.SPAWNING_CONST = 300
 
     def spawn(self):
-        genx, geny = random.randint(64, self.screen.get_width() - 97), random.randint(200, self.screen.get_height() - 100)
+        genx, geny = random.randint(64, self.screen.get_width() - 97), random.randint(self.SPAWNING_CONST, self.screen.get_height() - 100)
         for i in range(self.X):
-            genx, geny = random.randint(64, self.screen.get_width() - 97), random.randint(100, self.screen.get_height() - 100)
+            genx, geny = random.randint(64, self.screen.get_width() - 97), random.randint(self.SPAWNING_CONST, self.screen.get_height() - 100)
             for piece in self.fishlist + self.icelist:
                 if abs(piece.y - geny) <= self.DELTA or abs(piece.x - genx) <= self.DELTA:
                     break
