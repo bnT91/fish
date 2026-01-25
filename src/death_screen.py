@@ -3,6 +3,7 @@ import pickle
 import pygame
 from settings import Settings
 
+from utils import *
 
 class DeathScreen:
     def __init__(self, screen, player):
@@ -27,8 +28,13 @@ class DeathScreen:
                                            self.screen.get_height() - self.restart_label.get_height() - 15,
                                            self.restart_rect.width + 10, self.restart_rect.height + 10)
 
-        with open(self.settings.BASE_DIRECTORY / "scoreboard/best.pkl", "rb") as file:
-            self.best_score = pickle.load(file)
+        scpath = get_scoreboard_path()
+
+        if scpath.exists():
+            with open(scpath, "rb") as file:
+                self.best_score = pickle.load(file)
+        else:
+            self.best_score = 0
 
         if self.player.score > self.best_score:
             self.new_best = True
@@ -38,7 +44,7 @@ class DeathScreen:
             self.new_best_grats_label = self.new_best_grats_font.render(f"Yaaay! New best!", True, (0, 0, 255))
             self.new_best_grats_rect = self.new_best_grats_label.get_rect(center=(self.w / 2, self.h * 2 / 3))
 
-            with open(self.settings.BASE_DIRECTORY / "scoreboard/best.pkl", "wb") as file:
+            with open(scpath, "wb") as file:
                 # noinspection PyTypeChecker
                 pickle.dump(self.best_score, file)
 

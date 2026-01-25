@@ -38,6 +38,10 @@ class Game:
         self.flaggg = True
         self.restart_or_not = False
 
+        self.BGMUSIC = pygame.mixer.Sound(self.settings.BASE_DIRECTORY / "sounds/bgmusic.mp3")
+        self.BGMUSIC.set_volume(0.2)
+        self.BGMUSIC.play(-1)
+
         self.clock = pygame.time.Clock()
         self.vertical_speed = VerticalSpeed()
         self.V_SPD_SCORE_INCREASE_const = 5
@@ -88,6 +92,8 @@ class Game:
             if self.player.dead:
                 self.state = "dth_scr"
         elif self.state == "dth_scr":
+            if self.last_state != "dth_scr":
+                self.BGMUSIC.stop()
             self.death_screen_counter += 1
             if self.death_screen_counter >= 5 and self.flaggg:
                 self.flaggg = False
