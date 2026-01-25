@@ -20,7 +20,7 @@ class ObjectGenerator:
 
         self.settings = Settings()
 
-        self.cought_sound = pygame.mixer.Sound(self.settings.BASE_DIRECTORY / 'sounds/cought.mp3')
+        self.cought_sound = pygame.mixer.Sound(self.settings.resource_path('sounds/cought.mp3'))
 
         self.player = player
         self.v_spd = v_spd
@@ -30,9 +30,11 @@ class ObjectGenerator:
         self.FREQUENCY = new_freq
 
     def spawn(self):
-        genx, geny = random.randint(64, self.screen.get_width() - 97), random.randint(100, self.screen.get_height() - self.SPAWNING_CONST)
+        genx, geny = random.randint(64, self.screen.get_width() - 97), random.randint(100,
+                                                                                      self.screen.get_height() - self.SPAWNING_CONST)
         for i in range(self.X):
-            genx, geny = random.randint(64, self.screen.get_width() - 97), random.randint(100, self.screen.get_height() - self.SPAWNING_CONST)
+            genx, geny = random.randint(64, self.screen.get_width() - 97), random.randint(100,
+                                                                                          self.screen.get_height() - self.SPAWNING_CONST)
             for piece in self.fishlist + self.icelist:
                 if abs(piece.y - geny) <= self.DELTA or abs(piece.x - genx) <= self.DELTA:
                     break

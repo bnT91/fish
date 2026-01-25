@@ -1,4 +1,5 @@
 import sys
+
 print(sys.executable)
 print(sys.version)
 
@@ -25,12 +26,13 @@ class VerticalSpeed:
     def update(self, new_vert_speed):
         self.vert_speed = new_vert_speed
 
+
 class Game:
     def __init__(self):
         self.settings = Settings()
         self.screen = pygame.display.set_mode((700, 700))
         pygame.display.set_caption("Royal Ice Rybalka Fish")
-        pygame.display.set_icon(pygame.image.load(self.settings.BASE_DIRECTORY / "sprites/icon.png").convert_alpha())
+        pygame.display.set_icon(pygame.image.load(self.settings.resource_path("sprites/icon.png")).convert_alpha())
         self.states = ["st_scr", "game", "dth_scr"]
         self.state = "st_scr"
         self.last_state = "st_scr"
@@ -38,7 +40,7 @@ class Game:
         self.flaggg = True
         self.restart_or_not = False
 
-        self.BGMUSIC = pygame.mixer.Sound(self.settings.BASE_DIRECTORY / "sounds/bgmusic.mp3")
+        self.BGMUSIC = pygame.mixer.Sound(self.settings.resource_path("sounds/bgmusic.mp3"))
         self.BGMUSIC.set_volume(0.2)
         self.BGMUSIC.play(-1)
 
@@ -54,7 +56,7 @@ class Game:
         self.death_screen = DeathScreen(screen=self.screen, player=self.player)
 
     def manage_consts(self):
-        self.vertical_speed.update(5+math.floor(self.player.score/self.V_SPD_SCORE_INCREASE_const))
+        self.vertical_speed.update(5 + math.floor(self.player.score / self.V_SPD_SCORE_INCREASE_const))
 
         if self.player.score >= 6:
             self.settings.set_cldwn_const(2)
@@ -64,7 +66,7 @@ class Game:
             self.settings.set_cldwn_const(0)
 
         if self.player.score <= 20:
-            self.generator.set_freq(30 - math.floor(self.player.score/2.5))
+            self.generator.set_freq(30 - math.floor(self.player.score / 2.5))
             self.settings.set_sc_delta(2)
         if self.player.score == 25:
             self.generator.set_freq(17)
@@ -92,8 +94,7 @@ class Game:
             if self.player.dead:
                 self.state = "dth_scr"
         elif self.state == "dth_scr":
-            if self.last_state != "dth_scr":
-                self.BGMUSIC.stop()
+            self.BGMUSIC.stop()
             self.death_screen_counter += 1
             if self.death_screen_counter >= 5 and self.flaggg:
                 self.flaggg = False
@@ -101,6 +102,7 @@ class Game:
             self.death_screen.update()
 
         self.manage_consts()
+
     def draw(self):  # blitting everything
         self.screen.fill(self.settings.BACKGROUND_COLOR)
 
@@ -113,7 +115,6 @@ class Game:
             self.score.draw()
         elif self.state == "dth_scr":
             self.death_screen.draw()
-
 
     def run(self):
         running = True

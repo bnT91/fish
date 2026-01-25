@@ -2,6 +2,7 @@ import pygame
 import random
 import settings
 
+
 class Iceblock:
     def __init__(self, screen, x, y):
         self.screen = screen
@@ -9,8 +10,11 @@ class Iceblock:
 
         self.settings = settings.Settings()
 
-        self.sprites = [pygame.transform.scale(pygame.image.load(self.settings.BASE_DIRECTORY / "sprites" / "iceblock1.png").convert_alpha(), (64, 64)),
-                        pygame.transform.scale(pygame.image.load(self.settings.BASE_DIRECTORY / "sprites" / "iceblock2.png").convert_alpha(), (64, 64))] # размер спрайта 32х32
+        self.sprites = [pygame.transform.scale(
+            pygame.image.load(self.settings.resource_path("sprites/iceblock1.png")).convert_alpha(), (64, 64)),
+                        pygame.transform.scale(
+                            pygame.image.load(self.settings.resource_path("sprites/iceblock2.png")).convert_alpha(),
+                            (64, 64))]  # размер спрайта 32х32
 
         self.sprite = random.choice(self.sprites)
         self.rect = self.sprite.get_rect(topleft=(self.x, self.y))

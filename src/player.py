@@ -10,13 +10,13 @@ class Player:
 
         self.trying_to_catch = False
 
-        self.sprite = pygame.image.load(self.settings.BASE_DIRECTORY / "sprites/player1.png").convert_alpha()
+        self.sprite = pygame.image.load(self.settings.resource_path("sprites/player1.png")).convert_alpha()
         self.sprite = pygame.transform.scale(self.sprite, (44, 64))
 
         self.anim1 = pygame.transform.scale(
-            pygame.image.load(self.settings.BASE_DIRECTORY / "sprites/player1.png").convert_alpha(), (44, 64))
+            pygame.image.load(self.settings.resource_path("sprites/player1.png")).convert_alpha(), (44, 64))
         self.anim2 = pygame.transform.scale(
-            pygame.image.load(self.settings.BASE_DIRECTORY / "sprites/player2.png").convert_alpha(), (44, 64))
+            pygame.image.load(self.settings.resource_path("sprites/player2.png")).convert_alpha(), (44, 64))
 
         self.anim_counter = 0
         self.anims = [self.anim1, self.anim2]
@@ -31,13 +31,13 @@ class Player:
         self.const_imm = 1
 
         self.speed = 5
-        self.lives = 3 ###############################################################################################################################################
+        self.lives = 3  ###############################################################################################################################################
         self.score = 0
         self.dead = False
 
-        self.death_sfx = pygame.mixer.Sound(self.settings.BASE_DIRECTORY / "sounds/death.mp3")
-        self.death_sfx2 = pygame.mixer.Sound(self.settings.BASE_DIRECTORY / "sounds/death2.mp3")
-        self.minus_live_sfx = pygame.mixer.Sound(self.settings.BASE_DIRECTORY / 'sounds/minus_live.mp3')
+        self.death_sfx = pygame.mixer.Sound(self.settings.resource_path("sounds/death.mp3"))
+        self.death_sfx2 = pygame.mixer.Sound(self.settings.resource_path("sounds/death2.mp3"))
+        self.minus_live_sfx = pygame.mixer.Sound(self.settings.resource_path('sounds/minus_live.mp3'))
 
         self.w, self.h = self.screen.get_size()
 
@@ -58,8 +58,7 @@ class Player:
             if not self.lives:
                 self.dead = True
                 pygame.Sound.play(self.death_sfx2, maxtime=5000)
-                pygame.time.set_timer(pygame.USEREVENT+2, 5000, loops=1)
-
+                pygame.time.set_timer(pygame.USEREVENT + 2, 5000, loops=1)
 
     def update(self):
         if self.immortality:
@@ -70,9 +69,12 @@ class Player:
         self.anim_counter = self.anim_counter % self.settings.ANIMATION_CONSTANT
         if not self.anim_counter:
             self.sprite = next(self.anims_iter)
-        if pygame.key.get_pressed()[pygame.K_RIGHT] or pygame.key.get_pressed()[pygame.K_d]:
+
+        __KEYS = pygame.key.get_pressed()
+
+        if __KEYS[pygame.K_RIGHT] or __KEYS[pygame.K_d]:
             self.rect.x += self.speed
-        elif pygame.key.get_pressed()[pygame.K_LEFT] or pygame.key.get_pressed()[pygame.K_a]:
+        if __KEYS[pygame.K_LEFT] or __KEYS[pygame.K_a]:
             self.rect.x -= self.speed
         if self.rect.x < 64:
             self.rect.x = 64
@@ -86,7 +88,7 @@ class Player:
                 self.cooldown = False
             if self.counter == self.settings.fps:
                 self.cooldown_time -= 1
-                if self.cooldown_time<=0:
+                if self.cooldown_time <= 0:
                     self.cooldown = False
                     self.cooldown_time = 0
                 self.counter = 0

@@ -10,10 +10,10 @@ class Fish:
 
         self.settings = Settings()
 
-        self.sprites = [pygame.image.load(self.settings.BASE_DIRECTORY / "sprites" / "fish1.png").convert_alpha(),
-                        pygame.image.load(self.settings.BASE_DIRECTORY / "sprites" / "fish2.png").convert_alpha(),
-                        pygame.transform.flip(pygame.image.load(self.settings.BASE_DIRECTORY / "sprites" / "fish1.png").convert_alpha(), True, False),
-                        pygame.transform.flip(pygame.image.load(self.settings.BASE_DIRECTORY / "sprites" / "fish2.png").convert_alpha(), True, False)]
+        self.sprites = [pygame.image.load(self.settings.resource_path( "sprites/fish1.png")).convert_alpha(),
+                        pygame.image.load(self.settings.resource_path( "sprites/fish2.png")).convert_alpha(),
+                        pygame.transform.flip(pygame.image.load(self.settings.resource_path( "sprites/fish1.png")).convert_alpha(), True, False),
+                        pygame.transform.flip(pygame.image.load(self.settings.resource_path( "sprites/fish2.png")).convert_alpha(), True, False)]
 
         self.sprite = random.choice(self.sprites)
         self.rect = self.sprite.get_rect(topleft=(self.x, self.y))
