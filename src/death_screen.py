@@ -3,6 +3,7 @@ import pickle
 import pygame
 from settings import Settings
 
+
 class DeathScreen:
     def __init__(self, screen, player):
         self.screen = screen
@@ -18,6 +19,14 @@ class DeathScreen:
         self.you_died_rect = self.you_died_label.get_rect(topleft=(self.w / 2 - self.you_died_label.get_width() / 2,
                                                                    self.h / 2 - self.you_died_label.get_height() / 2))
 
+        self.restart_font = pygame.font.SysFont("Serif", 36, True)
+        self.restart_label = self.restart_font.render("Restart", True, (250, 250, 250))
+        self.restart_rect = self.restart_label.get_rect(
+            bottomright=(self.screen.get_width() - 10, self.screen.get_height() - 10))
+        self.restart_bg_rect = pygame.Rect(self.screen.get_width() - self.restart_label.get_width() - 15,
+                                           self.screen.get_height() - self.restart_label.get_height() - 15,
+                                           self.restart_rect.width + 10, self.restart_rect.height + 10)
+
         with open(self.settings.BASE_DIRECTORY / "scoreboard/best.pkl", "rb") as file:
             self.best_score = pickle.load(file)
 
@@ -27,7 +36,7 @@ class DeathScreen:
 
             self.new_best_grats_font = pygame.font.SysFont("Serif", 90, False, True)
             self.new_best_grats_label = self.new_best_grats_font.render(f"Yaaay! New best!", True, (0, 0, 255))
-            self.new_best_grats_rect = self.new_best_grats_label.get_rect(center=(self.w/2, self.h*2/3))
+            self.new_best_grats_rect = self.new_best_grats_label.get_rect(center=(self.w / 2, self.h * 2 / 3))
 
             with open(self.settings.BASE_DIRECTORY / "scoreboard/best.pkl", "wb") as file:
                 # noinspection PyTypeChecker
@@ -44,8 +53,19 @@ class DeathScreen:
     def update(self):
         pass
 
+    @staticmethod
+    def handle_event(event):
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            return True
+        return False
+
     def draw(self):
         self.screen.fill((0, 0, 0))
+
+        pygame.draw.rect(self.screen, (0, 125, 100), self.restart_bg_rect, border_radius=10)
+        pygame.draw.rect(self.screen, (255, 255, 255), self.restart_bg_rect, width=2, border_radius=10)
+
+        self.screen.blit(self.restart_label, self.restart_rect)
         self.screen.blit(self.you_died_label, self.you_died_rect)
         self.screen.blit(self.score_label, self.score_rect)
         self.screen.blit(self.best_sc_label, self.best_sc_rect)

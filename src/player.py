@@ -28,10 +28,10 @@ class Player:
 
         self.immortality = True
         self.imm_frame = self.settings.fps
-        self.const = 2
+        self.const_imm = 1
 
         self.speed = 5
-        self.lives = 3
+        self.lives = 3 ###############################################################################################################################################
         self.score = 0
         self.dead = False
 
@@ -54,7 +54,7 @@ class Player:
             self.lives -= 1
             self.rect.x = self.w / 2 - self.sprite.get_width() / 2
             self.immortality = True
-            self.imm_frame = self.settings.fps * self.const
+            self.imm_frame = self.settings.fps * self.const_imm
             if not self.lives:
                 self.dead = True
                 pygame.Sound.play(self.death_sfx2, maxtime=5000)
@@ -82,9 +82,11 @@ class Player:
             self.minus_live()
         if self.cooldown:
             self.counter += 1
+            if self.cooldown_time <= 0:
+                self.cooldown = False
             if self.counter == self.settings.fps:
                 self.cooldown_time -= 1
-                if not self.cooldown_time:
+                if self.cooldown_time<=0:
                     self.cooldown = False
                     self.cooldown_time = 0
                 self.counter = 0

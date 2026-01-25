@@ -1,5 +1,6 @@
 import pygame
 
+
 class StartingScreen:
     def __init__(self, screen):
         self.screen = screen
@@ -10,9 +11,10 @@ class StartingScreen:
         self.title_text = self.font_title.render("Royal Ice Rybalka Fish", True, (255, 255, 255))
 
         self.button_text = self.font_button.render("Click to start", True, (255, 0, 0))
-        self.button_rect = pygame.Rect(self.width/2 - self.button_text.get_width()/2,
-                                       self.height/2 - self.button_text.get_height()/2, self.button_text.get_width()+10,
-                                       self.button_text.get_height()+10)
+        self.button_rect = pygame.Rect(self.width / 2 - self.button_text.get_width() / 2,
+                                       self.height / 2 - self.button_text.get_height() / 2,
+                                       self.button_text.get_width() + 10,
+                                       self.button_text.get_height() + 10)
 
         self.finished = False
 
@@ -30,12 +32,13 @@ class StartingScreen:
 
     def draw(self):
         self.screen.fill((30, 120, 200))
-        title_rect = self.title_text.get_rect(center=(self.width/2, self.height/3))
+        title_rect = self.title_text.get_rect(center=(self.width / 2, self.height / 3))
         self.screen.blit(self.title_text, title_rect)
 
-        button_outline_rect = pygame.Rect(self.width/2 - self.button_text.get_width()/2-5,
-                                       self.height/2 - self.button_text.get_height()/2, self.button_text.get_width()+10,
-                                       self.button_text.get_height()+10)
+        button_outline_rect = pygame.Rect(self.width / 2 - self.button_text.get_width() / 2 - 5,
+                                          self.height / 2 - self.button_text.get_height() / 2,
+                                          self.button_text.get_width() + 10,
+                                          self.button_text.get_height() + 10)
         pygame.draw.rect(self.screen, (240, 240, 240), button_outline_rect, border_radius=10)
         pygame.draw.rect(self.screen, (0, 0, 0), button_outline_rect, 2, border_radius=10)
 

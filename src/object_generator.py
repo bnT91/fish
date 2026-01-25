@@ -26,6 +26,9 @@ class ObjectGenerator:
         self.v_spd = v_spd
         self.SPAWNING_CONST = 300
 
+    def set_freq(self, new_freq):
+        self.FREQUENCY = new_freq
+
     def spawn(self):
         genx, geny = random.randint(64, self.screen.get_width() - 97), random.randint(100, self.screen.get_height() - self.SPAWNING_CONST)
         for i in range(self.X):
@@ -48,10 +51,12 @@ class ObjectGenerator:
     def catch(self):
         flaggy = False
         for fishy in self.fishlist:
-            if self.player.rect.colliderect(fishy):
+            fish_rect = fishy.rect
+            new_fish_rect = pygame.rect.Rect(fish_rect.x, fish_rect.y, fish_rect.width + 17, fish_rect.height + 17)
+            if self.player.rect.colliderect(new_fish_rect):
                 flaggy = True
         if flaggy:
-            self.player.score += 1
+            self.player.score += self.settings.SCORE_DELTA
             self.cought_sound.play()
 
     def minus_live(self):
